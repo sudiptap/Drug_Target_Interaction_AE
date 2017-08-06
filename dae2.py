@@ -45,6 +45,8 @@ aucs = []
 fold_idx = 1 
 for train,test in kfold.split(input_tf):
     print(input_tf[test].sum())
+    input_train = np.zeros(input_tf.shape)
+    input_test = np.zeros(input_tf.shape)
     input_train = input_tf[train]
     input_test = input_tf[test]
     input_train_noisy = input_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=input_train.shape)
