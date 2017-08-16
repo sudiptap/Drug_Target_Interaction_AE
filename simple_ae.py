@@ -13,6 +13,14 @@ import time
 import os, errno
 import shutil
 
+#list of commandline arguments
+dataset_name = 'gpcr_admat_dgc.txt'
+encoding_dim = 2000
+dropout_rate = 0.0
+epochs=100
+batch_size=10
+verbose=0
+
 #creates directory
 def createDirectory(directory):
     try:
@@ -24,12 +32,12 @@ def createDirectory(directory):
 
 start_time = time.time()
 
-dataset_name = 'gpcr_admat_dgc.txt'
+
 #get dataset initial
 directory_name = dataset_name.split('_')[0]
 shutil.rmtree(directory_name)
 createDirectory(directory_name)
-encoding_dim = 2000
+
 temp = pd.read_table(dataset_name)
 output_dim = temp.shape[1]-1
 
@@ -41,7 +49,7 @@ input_tf = input_img
 #input = input_img.values
 #input_tf = tf.Variable(input, dtype='float32')
 model = Sequential()
-model.add(Dropout(0.0, input_shape=(output_dim-1,)))
+model.add(Dropout(dropout_rate, input_shape=(output_dim-1,)))
 model.add(Dense(encoding_dim, activation='relu', name='encoder'))#, input_dim=output_dim-1))
 model.add(Dense(output_dim-1, activation='relu', name='decoder'))
 model.compile(optimizer='adadelta', loss='binary_crossentropy', metrics=['accuracy'])
@@ -55,8 +63,8 @@ for train,test in kfold.split(input_tf):
     fold_name = str(fold)
     createDirectory(fold_name)
     os.chdir(fold_name)
-    model.fit(input_tf[train], input_tf[train], epochs=100, batch_size=10, verbose=0)
-    scores = model.evaluate(input_tf[test], input_tf[test], verbose=0)
+    model.fit(input_tf[train], input_tf[train], epochs=epochs, batch_size=batch_size, verbose=verbose)
+    scores = model.evaluate(input_tf[test], input_tf[test], verbose=verbose)
     decoded_img = model.predict(input_tf[test])
     decoded_flattened = decoded_img.flatten()
     truth_flattened = input_tf[test].flatten()

@@ -13,6 +13,15 @@ import time
 import os, errno
 import shutil
 
+#list of commandline arguments
+dataset_name = 'gpcr_admat_dgc.txt'
+encoding_dim = 2000
+noise_factor = 0.1
+dropout_rate = 0.0
+epochs=100
+batch_size=10
+verbose=0
+
 #creates directory
 def createDirectory(directory):
     try:
@@ -23,12 +32,12 @@ def createDirectory(directory):
 	    raise
 
 start_time = time.time()
-dataset_name = 'gpcr_admat_dgc.txt'
+
 #get dataset initial
 directory_name = dataset_name.split('_')[0]
 shutil.rmtree(directory_name)
 createDirectory(directory_name)
-encoding_dim = 2000
+
 temp = pd.read_table(dataset_name)
 output_dim = temp.shape[1]-1
 
@@ -42,7 +51,7 @@ input_tf = input_img
 #input_tf = tf.Variable(input, dtype='float32')
 
 
-noise_factor = 0.1
+
 #input_tf_noisy = input_tf + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=input_tf.shape) 
 
 
@@ -52,7 +61,7 @@ noise_factor = 0.1
 
 
 model = Sequential()
-model.add(Dropout(0.0, input_shape=(output_dim-1,)))
+model.add(Dropout(dropout_rate, input_shape=(output_dim-1,)))
 model.add(Dense(encoding_dim, activation='relu', name='encoder'))#, input_dim=output_dim-1))
 model.add(Dense(output_dim-1, activation='relu', name='decoder'))
 model.compile(optimizer='adadelta', loss='binary_crossentropy', metrics=['accuracy'])
@@ -74,8 +83,8 @@ for train,test in kfold.split(input_tf):
     input_train_noisy = input_train + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=input_train.shape)
     input_test_noisy = input_test + noise_factor * np.random.normal(loc=0.0, scale=1.0, size=input_test.shape)  
 
-    model.fit(input_train_noisy, input_train_noisy, epochs=100, batch_size=10, verbose=0)
-    scores = model.evaluate(input_test_noisy, input_test_noisy, verbose=0)
+    model.fit(input_train_noisy, input_train_noisy, epochs=epochs, batch_size=batch_size, verbose=verbose)
+    scores = model.evaluate(input_test_noisy, input_test_noisy, verbose=verbose)
     decoded_img = model.predict(input_test_noisy)
     decoded_flattened = decoded_img.flatten()
     truth_flattened = input_test.flatten()
