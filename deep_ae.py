@@ -1,6 +1,6 @@
 import numpy as np
 import tensorflow as tf
-from keras.layers import Input, Dense, Activation
+from keras.layers import Input, Dense, Activation, Dropout
 from keras.models import Model
 from keras.models import Sequential
 from keras import regularizers
@@ -41,7 +41,8 @@ input_tf = input_img
 #input = input_img.values
 #input_tf = tf.Variable(input, dtype='float32')
 model = Sequential()
-model.add(Dense(512, activation='relu', input_dim=output_dim-1))
+model.add(Dropout(0.0, input_shape=(output_dim-1,)))
+model.add(Dense(512, activation='relu'))#, input_dim=output_dim-1))
 model.add(Dense(1024, activation='relu'))
 model.add(Dense(2048, activation='relu'))
 model.add(Dense(1024, activation='relu'))
