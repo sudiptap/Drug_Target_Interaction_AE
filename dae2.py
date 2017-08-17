@@ -12,11 +12,12 @@ from sklearn import metrics
 import time
 import os, errno
 import shutil
+import sys
 
 #list of commandline arguments
-dataset_name = 'gpcr_admat_dgc.txt'
-encoding_dim = 2000
-noise_factor = 0.1
+dataset_name = sys.argv[1] #'gpcr_admat_dgc.txt'
+encoding_dim = int(sys.argv[3]) # 2000
+noise_factor = float(sys.argv[2]) #0.1
 dropout_rate = 0.0
 epochs=100
 batch_size=10
@@ -35,7 +36,8 @@ start_time = time.time()
 
 #get dataset initial
 directory_name = dataset_name.split('_')[0]
-shutil.rmtree(directory_name)
+directory_name = directory_name+'_'+sys.argv[2]+'_'+sys.argv[3] #filter(lambda e: e in range(9), str(noise_factor))
+#shutil.rmtree(directory_name)
 createDirectory(directory_name)
 
 temp = pd.read_table(dataset_name)
