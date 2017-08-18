@@ -11,7 +11,9 @@ dataset = ['nr_admat_dgc.txt', 'gpcr_admat_dgc.txt', 'ic_admat_dgc.txt', 'e_adma
 #    subprocess.check_output(cmd, shell=True)
 
 # run for different dim for n = 0.1
-dims = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300,2400, 2500, 2600, 2700, 2800, 2900, 3000]
+#dims = [1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300,2400, 2500, 2600, 2700, 2800, 2900, 3000]
+
+dims = [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384]
 for d in dataset:
   for dim in dims:
     n = 0.1
