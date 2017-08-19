@@ -41,7 +41,7 @@ directory_name = directory_name+'_'+sys.argv[2]+'_'+sys.argv[3] #filter(lambda e
 createDirectory(directory_name)
 
 temp = pd.read_table(dataset_name)
-output_dim = temp.shape[1]-1
+output_dim = temp.shape[1]
 
 #input_img = pd.read_table(dataset_name)
 input_img = np.loadtxt(dataset_name,'\t',skiprows=1, usecols=range(1,output_dim))
