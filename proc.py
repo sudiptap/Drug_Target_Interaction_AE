@@ -2,6 +2,8 @@ import os
 import sys
 import numpy as np
 from sklearn.metrics import roc_auc_score
+from sklearn.metrics import precision_recall_curve
+from sklearn import metrics
 
 data = sys.argv[1]
 noises = range(2,42,2)
@@ -21,6 +23,8 @@ for noise in noises:  # for range noise
 
     y_true = np.loadtxt(fileprefix+'truth_test.out')
     y_scores = np.loadtxt(fileprefix+'prediction_test.out')
-    score = roc_auc_score(y_true, y_scores)
+    #score = roc_auc_score(y_true, y_scores)
+    precision, recall, thresholds = precision_recall_curve(y_true, y_scores)
+    score = metrics.auc(recall, precision)
     scores.append(score)
   print np.mean(scores)
