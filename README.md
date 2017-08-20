@@ -8,3 +8,6 @@ example : python dae2.py 'nr_admat_dgc.txt' 0.1 2048
 
 ## Please cite: 
 coming soon
+
+## Contact:
+Please contact at sudipto.pathak@gmail.com for questions and queries.
