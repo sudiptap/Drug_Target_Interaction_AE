@@ -31,7 +31,7 @@ shutil.rmtree(directory_name)
 createDirectory(directory_name)
 encoding_dim = 2048
 temp = pd.read_table(dataset_name)
-output_dim = temp.shape[1]-1
+output_dim = temp.shape[1]
 
 #input_img = pd.read_table(dataset_name)
 input_img = np.loadtxt(dataset_name,'\t',skiprows=1, usecols=range(1,output_dim))
